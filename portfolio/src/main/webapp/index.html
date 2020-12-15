@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
+  <!-- this style bit here helps with the div making it inline with the rest of the page and the photos width consistent. 
+    without the style, the beep boop random photo will generate a very big full size photo that will make the user scroll to view the whole picture-->
+  <style>
+      img {
+          width: 100%
+      }
+  </style>
   <body>
     <div id="content">
       <h1>Welcome to Rosanna's Portfolio! </h1>
@@ -38,11 +45,11 @@
       <a href="http://linkedin.com/in/rosanna-liu-b3376b136"> LinkedIn Profile</a> 
       <a href="https://github.com/roroross"> Github Profile</a>
 
-      <img src="images/Rosanna.png" alt="A selfie of Rosanna" width="450" height="450"/>
+      <img src="images/Rosanna.png" alt="A selfie of Rosanna"/>
 
       <p> Click <a href="gallery.html">here</a> to see more pictures of Rosanna!</p>
-      <p>Click >here to a random photo of me!</p>
-      <button onclick="random_image()">Sploot</button>
+      <p>Click here to a random photo of me!</p>
+      <button onclick="random_image()">Beep boop random photo!</button>
       <div id="random_image_container"></div>
       
     </div>

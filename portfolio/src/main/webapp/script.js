@@ -54,7 +54,7 @@ function random_image() {
   // The images directory contains 12 images, so generate a random index between
   // 1 and 12.
   const imageIndex = Math.floor(Math.random() * 12) + 1;
-  const imgUrl = 'images/Rosanna' + imageIndex + '.jpg';
+  const imgUrl = 'images/Rosanna' + imageIndex + '.JPG';
 
   const imgElement = document.createElement('img');
   imgElement.src = imgUrl;
