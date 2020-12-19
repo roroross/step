@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns HTML that contains the page view count. */
-// @webservlet is an annotation that tells our server which UTL this ervlet maps to
-//when client requests the pageviews URL, this servlet is triggered
-//@WebServlet("/content")
+/** Servlet(@webservlet) that returns HTML that contains the page view count when triggered by client request. */
 
 @WebServlet("/page-views") 
 public class PageViewServlet extends HttpServlet {
@@ -34,13 +31,11 @@ public class PageViewServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     pageViews++;
-    //^ since the doget function runs everytime the pageviews URL is requested, 
-    //this means the pageviews variable tracks how many times the page has been viewed
-
+    
     /*
-    response.setContentType("text/html;") - specifies what type of content the client should expect
-    response.getWriter().println("<h1>Page Views</h1>")-  prints an <h1> tag to the response.
-    response.getWriter().println("<p>This page has been viewed " + pageViews + " times.</p>"); prints the page view count to the response.
+    setContentType("text/html;") - specifies what type of content the client should expect
+    getWriter().println("<h1>Page Views</h1>")-  prints an <h1> tag to the response.
+    getWriter().println("<p>This page has been viewed " + pageViews + " times.</p>"); prints the page view count to the response.
     */
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Page Views</h1>");

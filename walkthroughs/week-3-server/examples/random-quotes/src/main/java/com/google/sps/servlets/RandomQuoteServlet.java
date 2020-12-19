@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns a random quote. */
+/** Servlet that returns a random quote. 
+ * responds with rand quote when client requests the /ranquote url*/
 @WebServlet("/random-quote")
 public final class RandomQuoteServlet extends HttpServlet {
 
