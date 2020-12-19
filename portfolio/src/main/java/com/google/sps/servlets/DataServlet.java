@@ -31,3 +31,4 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println("Hello Rosanna!");
     //with p tags and without p tags show the same font and size, but better practice to wrap <p>
   }
+}
