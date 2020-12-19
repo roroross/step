@@ -64,3 +64,67 @@ function random_image() {
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
 }
+
+/**
+ * The above code is organized to show each individual step, but we can use an
+ * ES6 feature called arrow functions to shorten the code. This function
+ * combines all of the above code into a single Promise chain. You can use
+ * whichever syntax makes the most sense to you.
+ */
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/random-quote').then(response => response.text()).then((quote) => {
+    document.getElementById('quote-container').innerText = quote;
+  });
+}
+
+function get_hello_rosanna_using_arrow_functions() {
+  fetch('/data').then(response => response.text()).then((quote) => {
+    document.getElementById('quote-container').innerText = quote;
+  });
+}
+
+
+function getHelloRosanna() {
+  console.log('Fetching hello rosanna content from /data server.');
+
+  // The fetch() function returns a Promise because the request is asynchronous.
+  /* fetch('/random-quote') sends a request to the /random-quote URL. 
+  The server responds to this request with a random quote, 
+  exactly like when you navigated to the URL with your browser.
+  
+  The fetch() function makes a request in the background, 
+  so it returns a Promise, which is stored in the responsePromise variable
+
+  #MOST IMPORTANT: SENDS REQUEST TO /DATA
+  */
+  const responsePromise = fetch('/data');
+
+  /*
+    the responsePromise variable points to a Promise, and the code call the then() func, 
+    passing the handleresponse function in as an argument.
+    JS can reference a function using the name.
+  */
+  // When the request is complete, pass the response into handleResponse().
+  // tells JavaScript to call the handleResponse() function when the server returns a response.
+  responsePromise.then(handleResponse);
+}
+
+function handleResponse(response) {
+  console.log('Handling the response.');
+
+  // response.text() returns a Promise, because the response is a stream of
+  // content and not a simple variable.
+  const textPromise = response.text();
+
+  // When the response is converted to text, pass the result into the
+  // addQuoteToDom() function.
+  textPromise.then(addQuoteToDom);
+}
+
+/** Adds a random quote to the DOM. */
+function addQuoteToDom(quote) {
+  console.log('Adding quote to dom: ' + quote);
+
+  const quoteContainer = document.getElementById('quote-container');
+  quoteContainer.innerText = quote;
+}
