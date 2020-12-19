@@ -29,9 +29,5 @@ public class DataServlet extends HttpServlet {
     response.setContentType("text/html;");
     response.getWriter().println("<h1>Hello world!</h1>");
     response.getWriter().println("Hello Rosanna!");
-    //the code below shows the same thing. with p tags and without p tags show the  
-    //same font and size
-    //response.getWriter().println("Hello Rosanna! (without the html paragraph  wraps)");
-    //response.getWriter().println("<p>Hello Rosanna! (with the html paragraph wraps) <p>");
+    //with p tags and without p tags show the same font and size, but better practice to wrap <p>
   }
-}
