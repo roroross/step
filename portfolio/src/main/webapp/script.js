@@ -65,38 +65,25 @@ function random_image() {
   imageContainer.appendChild(imgElement);
 }
 
+
+//================================================================
+
+
 /**
- * The above code is organized to show each individual step, but we can use an
- * ES6 feature called arrow functions to shorten the code. This function
- * combines all of the above code into a single Promise chain. You can use
- * whichever syntax makes the most sense to you.
+ * Javascript Fetches the content from the server and adds it to the DOM.
  */
-function getRandomQuoteUsingArrowFunctions() {
-  fetch('/random-quote').then(response => response.text()).then((quote) => {
-    document.getElementById('quote-container').innerText = quote;
-  });
-}
-
-function get_hello_rosanna_using_arrow_functions() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('quote-container').innerText = quote;
-  });
-}
-
-
 function getHelloRosanna() {
-  console.log('Fetching hello rosanna content from /data server.');
+  console.log('Fetching the content from the serlvet.');
 
   // The fetch() function returns a Promise because the request is asynchronous.
-  /* fetch('/random-quote') sends a request to the /random-quote URL. 
-  The server responds to this request with a random quote, 
+  /* fetch('/data') sends a request to the /data URL. 
+  The server responds to this request with the content , 
   exactly like when you navigated to the URL with your browser.
   
   The fetch() function makes a request in the background, 
   so it returns a Promise, which is stored in the responsePromise variable
 
-  #MOST IMPORTANT: SENDS REQUEST TO /DATA
-  */
+  #MOST IMPORTANT: SENDS REQUEST TO /DATA*/
   const responsePromise = fetch('/data');
 
   /*
@@ -109,22 +96,26 @@ function getHelloRosanna() {
   responsePromise.then(handleResponse);
 }
 
+/**
+ * Handles response by converting it to text and passing the result to
+ * addContentToDom().
+ */
 function handleResponse(response) {
-  console.log('Handling the response.');
+  console.log('Handling the response and converting to text.');
 
   // response.text() returns a Promise, because the response is a stream of
   // content and not a simple variable.
   const textPromise = response.text();
 
   // When the response is converted to text, pass the result into the
-  // addQuoteToDom() function.
-  textPromise.then(addQuoteToDom);
+  // addContentToDom() function.
+  textPromise.then(addContentToDom);
 }
 
-/** Adds a random quote to the DOM. */
-function addQuoteToDom(quote) {
-  console.log('Adding quote to dom: ' + quote);
+/** Adds the servlet Content to the DOM. */
+function addContentToDom(content) {
+  console.log('Adding content to dom: ' + content);
 
-  const quoteContainer = document.getElementById('quote-container');
-  quoteContainer.innerText = quote;
+  const contentContainer = document.getElementById('content-container');
+  contentContainer.innerText = content;
 }

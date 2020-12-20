@@ -27,8 +27,8 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    //response.getWriter().println("<h1>Hello world!</h1>");
-    response.getWriter().println("Hello Rosanna!");
+    response.getWriter().println("<h1>Hello world!</h1>");
+    response.getWriter().println("<p>Hello Rosanna!</p>");
     //with p tags and without p tags show the same font and size, but better practice to wrap <p>
   }
 }
