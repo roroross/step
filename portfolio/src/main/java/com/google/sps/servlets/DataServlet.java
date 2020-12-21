@@ -27,26 +27,39 @@ import java.util.ArrayList;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+ArrayList<String> comments = new ArrayList<String>();
 
   @Override
   //public static void main(String[] args) { 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-
-    //contain an ArrayList<String> variable
-    ArrayList<String> weeks = new ArrayList<String>();
-    weeks.add("Week1");
-    weeks.add("Week2");
-    weeks.add("Week3");
-    //response.getWriter().println(weeks); 
-
+    //sends the comments to the page, want it to be json, dont want it to be html. 
+    //in the server, sending the comments data to the website page 
     // Convert the server  to JSON
     Gson gson = new Gson();
-    String json = gson.toJson(weeks);
+    String json = gson.toJson(comments);
 
     // Send the JSON as the response 
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    //use to send data to the server 
+
+    //making a string called comment, getting it form the input 
+    String comment = request.getParameter("text-input");
+    //add it to the array called comments
+    comments.add(comment);
+
+    //not quite sure if the next two lines of code is needed? as it works with and without it. 
+    //setting the request as a text/html format
+    response.setContentType("text/html");
+    //puts stuff in it but rn is empty?
+    response.getWriter().println();
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("index.html");
   }
 }
 

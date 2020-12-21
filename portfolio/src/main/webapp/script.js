@@ -66,8 +66,9 @@ function random_image() {
 }
 
 
-function getHelloRosanna() {
+function getComment() {
     //when it was text, it shows all the bracklets and text was. json makes it parse intop json
+    //fetching all my comments now from the /data. fetch runs the doget method. 
   fetch('/data').then(response => response.json()).then((content) => {
     document.getElementById('content-container').innerText = content;
     //console.log(content)
