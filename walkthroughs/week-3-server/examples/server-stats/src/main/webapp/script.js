@@ -16,6 +16,7 @@
  * Fetches stats from the servers and adds them to the DOM.
  */
 function getServerStats() {
+    //send a request to /sercer-stats, parses the reso=ponse to json, then can reference the field in stats
   fetch('/server-stats').then(response => response.json()).then((stats) => {
     // stats is an object, not a string, so we have to
     // reference its fields to create HTML content
