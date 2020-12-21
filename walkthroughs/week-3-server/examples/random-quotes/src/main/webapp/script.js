@@ -14,14 +14,27 @@
 
 /**
  * Fetches a random quote from the server and adds it to the DOM.
+ * aka JavaScript that fetches content from the server and adds it to the DOM.
  */
 function getRandomQuote() {
   console.log('Fetching a random quote.');
 
   // The fetch() function returns a Promise because the request is asynchronous.
+  /* fetch('/random-quote') sends a request to the /random-quote URL. 
+  The server responds to this request with a random quote, 
+  exactly like when you navigated to the URL with your browser.
+  
+  The fetch() function makes a request in the background, 
+  so it returns a Promise, which is stored in the responsePromise variable*/
   const responsePromise = fetch('/random-quote');
 
+  /*
+    the responsePromise variable points to a Promise, and the code call the then() func, 
+    passing the handleresponse function in as an argument.
+    JS can reference a function using the name.
+  */
   // When the request is complete, pass the response into handleResponse().
+  // tells JavaScript to call the handleResponse() function when the server returns a response.
   responsePromise.then(handleResponse);
 }
 

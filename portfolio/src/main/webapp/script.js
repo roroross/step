@@ -64,3 +64,58 @@ function random_image() {
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
 }
+
+
+//================================================================
+
+
+/**
+ * Javascript Fetches the content from the server and adds it to the DOM.
+ */
+function getHelloRosanna() {
+  console.log('Fetching the content from the serlvet.');
+
+  // The fetch() function returns a Promise because the request is asynchronous.
+  /* fetch('/data') sends a request to the /data URL. 
+  The server responds to this request with the content , 
+  exactly like when you navigated to the URL with your browser.
+  
+  The fetch() function makes a request in the background, 
+  so it returns a Promise, which is stored in the responsePromise variable
+
+  #MOST IMPORTANT: SENDS REQUEST TO /DATA*/
+  const responsePromise = fetch('/data');
+
+  /*
+    the responsePromise variable points to a Promise, and the code call the then() func, 
+    passing the handleresponse function in as an argument.
+    JS can reference a function using the name.
+  */
+  // When the request is complete, pass the response into handleResponse().
+  // tells JavaScript to call the handleResponse() function when the server returns a response.
+  responsePromise.then(handleResponse);
+}
+
+/**
+ * Handles response by converting it to text and passing the result to
+ * addContentToDom().
+ */
+function handleResponse(response) {
+  console.log('Handling the response and converting to text.');
+
+  // response.text() returns a Promise, because the response is a stream of
+  // content and not a simple variable.
+  const textPromise = response.text();
+
+  // When the response is converted to text, pass the result into the
+  // addContentToDom() function.
+  textPromise.then(addContentToDom);
+}
+
+/** Adds the servlet Content to the DOM. */
+function addContentToDom(content) {
+  console.log('Adding content to dom: ' + content);
+
+  const contentContainer = document.getElementById('content-container');
+  contentContainer.innerText = content;
+}
