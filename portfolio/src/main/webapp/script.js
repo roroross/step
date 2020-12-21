@@ -105,7 +105,8 @@ function handleResponse(response) {
 
   // response.text() returns a Promise, because the response is a stream of
   // content and not a simple variable.
-  const textPromise = response.text();
+  //const textPromise = response.text();
+  const textPromise = response.json();
 
   // When the response is converted to text, pass the result into the
   // addContentToDom() function.
@@ -118,4 +119,32 @@ function addContentToDom(content) {
 
   const contentContainer = document.getElementById('content-container');
   contentContainer.innerText = content;
+}
+
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/random-quote').then(response => response.text()).then((quote) => {
+    document.getElementById('quote-container').innerText = quote;
+  });
+}
+
+/**
+ * Fetches stats from the servers and adds them to the DOM.
+ */
+function getServerStats() {
+    //send a request to /sercer-stats, parses the reso=ponse to json, then can reference the field in stats
+  fetch('/server-stats').then(response => response.json()).then((stats) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+
+    const statsListElement = document.getElementById('server-stats-container');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement('Start time: ' + stats.startTime));
+    statsListElement.appendChild(
+        createListElement('Current time: ' + stats.currentTime));
+    statsListElement.appendChild(
+        createListElement('Max memory: ' + stats.maxMemory));
+    statsListElement.appendChild(
+        createListElement('Used memory: ' + stats.usedMemory));
+  });
 }
