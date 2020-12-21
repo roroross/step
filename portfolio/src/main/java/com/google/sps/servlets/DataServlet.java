@@ -20,15 +20,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
   @Override
+  //public static void main(String[] args) { 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
-    response.getWriter().println("<p>Hello Rosanna!</p>");
-    //with p tags and without p tags show the same font and size, but better practice to wrap <p>
+
+    //contain an ArrayList<String> variable
+    ArrayList<String> weeks = new ArrayList<String>();
+    weeks.add("Week1");
+    weeks.add("Week2");
+    weeks.add("Week3");
+    //response.getWriter().println(weeks); 
+
+    // Convert the server  to JSON
+    Gson gson = new Gson();
+    String json = gson.toJson(weeks);
+
+    // Send the JSON as the response 
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
   }
 }
+
