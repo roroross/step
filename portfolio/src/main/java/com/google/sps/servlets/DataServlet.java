@@ -32,9 +32,6 @@ public class DataServlet extends HttpServlet {
   //public static void main(String[] args) { 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    //response.getWriter().println("<h1>Hello world!</h1>");
-    //response.getWriter().println("<p>Hello Rosanna!</p>");
-    //with p tags and without p tags show the same font and size, but better practice to wrap <p>
 
     //contain an ArrayList<String> variable
     ArrayList<String> weeks = new ArrayList<String>();
