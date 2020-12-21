@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,7 +30,8 @@ import java.util.ArrayList;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-ArrayList<String> comments = new ArrayList<String>();
+  ArrayList<String> comments = new ArrayList<String>();
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   //public static void main(String[] args) { 
@@ -51,6 +55,16 @@ ArrayList<String> comments = new ArrayList<String>();
     String comment = request.getParameter("text-input");
     //add it to the array called comments
     comments.add(comment);
+
+    //create new entity called of kind Comment, variable name commentEntity. 
+    Entity commentEntity = new Entity("Comment");
+    //set property of  a comment inside it.
+    commentEntity.setProperty("inputtedComment", comment);
+    //use datastore
+    //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    //store comment entity into  commentEntity. 
+    datastore.put(commentEntity);
+
 
     //not quite sure if the next two lines of code is needed? as it works with and without it. 
     //setting the request as a text/html format
