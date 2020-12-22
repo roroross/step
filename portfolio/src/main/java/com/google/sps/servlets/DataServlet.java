@@ -45,8 +45,6 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
 
-    //response.setContentType("text/plain");
-
     List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId(); //id the the key 
