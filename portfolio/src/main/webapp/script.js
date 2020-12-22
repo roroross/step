@@ -74,18 +74,10 @@ function getComment() {
     document.getElementById('content-container').innerHTML = '';
     //get the selected dropdown.
     commentLimitSelection = document.getElementById('maxCommentSelected');
-    //Retrieving the text of the selected <option> in <select> element. .selectedindex shows the chosen index!
-    commentLimit = commentLimitSelection.options[commentLimitSelection.selectedIndex].text;
-
-    //console.log(commentLimitSelection);
-    console.log(commentLimit);
-    console.log(typeof(commentLimit)); //returns object
-    commentLimitStr = JSON.stringify(commentLimit);
-    //console.log(typeof(commentLimitStr));
-    //console.log(commentLimitStr);
+    //Retrieving the text of the selected <option> in <select> element. .selectedindex shows the chosen index! //string
+    commentLimit = commentLimitSelection.options[commentLimitSelection.selectedIndex].text; 
 
     //comment of comments itereating thought the values. use "in" and it shows the index. 
-    //fetch('/data?maxComments=8')
     fetch('/data' + '?maxComments=' + commentLimit).then(response => response.json()).then((comments) => {
         for (comment of comments) {
             document.getElementById('content-container').innerHTML += comment.content + '<br>' ;

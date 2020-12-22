@@ -48,7 +48,6 @@ public class DataServlet extends HttpServlet {
     String maxNumStr = request.getParameter("maxComments"); //returns as a string
     int maxNum = Integer.parseInt(maxNumStr); //convert str to int
     // /data?maxComments=5, that passes in "5" for the parameter "maxComments"
-    //int maxNum = Integer.parseInt(request.getParameter("numComments"));
 
     List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
     for (Entity entity : results.asIterable()) {
@@ -65,9 +64,6 @@ public class DataServlet extends HttpServlet {
           Comment newComments = new Comment(id, content, timestamp, ipAddress);
           comments.add(newComments);
       }
-
-      //Comment newComments = new Comment(id, content, timestamp, ipAddress);
-      //comments.add(newComments);
     }
     response.setContentType("application/json;"); //before other data is sent
 
@@ -76,12 +72,6 @@ public class DataServlet extends HttpServlet {
     // Convert the server  to JSON
     Gson gson = new Gson();
     String json = gson.toJson(comments);
-    
-    System.out.println(json); //works
-    System.out.println(maxNumStr); //works
-    System.out.println(maxNum); //works
-    System.out.println(comments.size()); //works
-
 
     // Send the JSON as the response 
     response.getWriter().println(json);
