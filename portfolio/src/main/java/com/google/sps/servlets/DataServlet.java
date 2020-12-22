@@ -23,27 +23,50 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.appengine.api.datastore.PreparedQuery;
 
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+import com.google.sps.data.Comment; // TO BE EDITED FOR COMMENTS CLASS
+import java.util.List;
+
+
+/** Servlet that  handle and return comments data modify */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  ArrayList<String> comments = new ArrayList<String>();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   //public static void main(String[] args) { 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    //response.setContentType("text/plain");
+
+    List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId(); //id the the key 
+      //in loop, get the properties that were set on each entity when it was stored in datastore
+      String content = (String) entity.getProperty("content"); 
+      long timestamp = (long) entity.getProperty("timestamp");
+      String ipAddress = (String) entity.getProperty("ipAddress");
+
+      Comment newComments = new Comment(id, content, timestamp, ipAddress);
+      comments.add(newComments);
+    }
+    response.setContentType("application/json;"); //before other data is sent
+
     //sends the comments to the page, want it to be json, dont want it to be html. 
     //in the server, sending the comments data to the website page 
     // Convert the server  to JSON
     Gson gson = new Gson();
     String json = gson.toJson(comments);
-
+    
     // Send the JSON as the response 
-    response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
@@ -53,15 +76,19 @@ public class DataServlet extends HttpServlet {
 
     //making a string called comment, getting it form the input 
     String comment = request.getParameter("text-input");
-    //add it to the array called comments
-    comments.add(comment);
+    long timestamp = System.currentTimeMillis();
+    String ipAddress = request.getRemoteAddr();  
 
     //create new entity called of kind Comment, variable name commentEntity. 
     Entity commentEntity = new Entity("Comment");
     //set property of  a comment inside it.
-    commentEntity.setProperty("inputtedComment", comment);
+    commentEntity.setProperty("content", comment);
+    
+    //ADD THE TIME STAMPES HEREEE AND IP ADDRESS HERE!!!!!!!!!!!!!!!!!!!
+    commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("ipAddress", ipAddress);
+
     //use datastore
-    //DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     //store comment entity into  commentEntity. 
     datastore.put(commentEntity);
 
@@ -76,4 +103,3 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("index.html");
   }
 }
-
