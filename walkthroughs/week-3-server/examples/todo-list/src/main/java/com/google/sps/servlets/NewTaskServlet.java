@@ -32,13 +32,23 @@ public class NewTaskServlet extends HttpServlet {
     String title = request.getParameter("title");
     long timestamp = System.currentTimeMillis();
 
+    //creating a new entity by giving it a "kind" (aka a category) of task (aka the cateogry is Task)
+    //and store it in a taskEntity variable (the variable name is taskEntity)
     Entity taskEntity = new Entity("Task");
+
+    //setting 2 properties in the taskEntity entity, title, and timestamp
     taskEntity.setProperty("title", title);
     taskEntity.setProperty("timestamp", timestamp);
 
+    //to use datastore, need an instance of the datastore class. 
+    //it comes with the app engine so no need for prior custom class define
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(taskEntity);
 
+    //now i have a datastore variable, and task entity variable.
+    //store the entity by passing it into the datastore.put() function.
+    //this stores taskentity in datastore so i can load it next time i need it.
+    datastore.put(taskEntity);
+    
     response.sendRedirect("/index.html");
   }
 }

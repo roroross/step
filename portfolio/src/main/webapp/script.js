@@ -65,12 +65,17 @@ function random_image() {
   imageContainer.appendChild(imgElement);
 }
 
-
-function getHelloRosanna() {
-    //when it was text, it shows all the bracklets and text was. json makes it parse intop json
-  fetch('/data').then(response => response.json()).then((content) => {
-    document.getElementById('content-container').innerText = content;
-    //console.log(content)
-  });
+function getComment() {
+   //when it was text, it shows all the bracklets and text was. json makes it parse intop json
+   //fetching all my comments now from the /data. fetch runs the doget method.
+   //iterate over the comments array to get  out of the content.
+ 
+   //initiatise it so it doesnt append and append and append
+    document.getElementById('content-container').innerHTML = ''
+    //comment of comments itereating thought the values. use "in" and it shows the index
+    fetch('/data').then(response => response.json()).then((comments) => {
+        for (comment of comments) {
+            document.getElementById('content-container').innerHTML += comment.content + '<br>' ;
+        }
+    });
 }
-

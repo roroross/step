@@ -20,33 +20,86 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.appengine.api.datastore.PreparedQuery;
 
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+import com.google.sps.data.Comment; // TO BE EDITED FOR COMMENTS CLASS
+import java.util.List;
+
+
+/** Servlet that  handle and return comments data modify */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   //public static void main(String[] args) { 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
 
-    //contain an ArrayList<String> variable
-    ArrayList<String> weeks = new ArrayList<String>();
-    weeks.add("Week1");
-    weeks.add("Week2");
-    weeks.add("Week3");
-    //response.getWriter().println(weeks); 
+    //response.setContentType("text/plain");
 
+    List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId(); //id the the key 
+      //in loop, get the properties that were set on each entity when it was stored in datastore
+      String content = (String) entity.getProperty("content"); 
+      long timestamp = (long) entity.getProperty("timestamp");
+      String ipAddress = (String) entity.getProperty("ipAddress");
+
+      Comment newComments = new Comment(id, content, timestamp, ipAddress);
+      comments.add(newComments);
+    }
+    response.setContentType("application/json;"); //before other data is sent
+
+    //sends the comments to the page, want it to be json, dont want it to be html. 
+    //in the server, sending the comments data to the website page 
     // Convert the server  to JSON
     Gson gson = new Gson();
-    String json = gson.toJson(weeks);
-
+    String json = gson.toJson(comments);
+    
     // Send the JSON as the response 
-    response.setContentType("application/json;");
     response.getWriter().println(json);
   }
-}
 
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    //use to send data to the server 
+
+    //making a string called comment, getting it form the input 
+    String comment = request.getParameter("text-input");
+    long timestamp = System.currentTimeMillis();
+    String ipAddress = request.getRemoteAddr();  
+
+    //create new entity called of kind Comment, variable name commentEntity. 
+    Entity commentEntity = new Entity("Comment");
+    //set property of  a comment inside it.
+    commentEntity.setProperty("content", comment);
+    
+    //ADD THE TIME STAMPES HEREEE AND IP ADDRESS HERE!!!!!!!!!!!!!!!!!!!
+    commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("ipAddress", ipAddress);
+
+    //use datastore
+    //store comment entity into  commentEntity. 
+    datastore.put(commentEntity);
+
+
+    //not quite sure if the next two lines of code is needed? as it works with and without it. 
+    //setting the request as a text/html format
+    response.setContentType("text/html");
+    //puts stuff in it but rn is empty?
+    response.getWriter().println();
+
+    // Redirect back to the HTML page.
+    response.sendRedirect("index.html");
+  }
+}
