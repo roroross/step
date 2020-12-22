@@ -84,3 +84,12 @@ function getComment() {
         }
     });
 }
+
+function deleteComment() {
+    //make POST request to /delete-data
+    const request = new Request('/delete-data', {method: 'POST'});
+    //call function to detch comments from server so now deleted comments are removed from apge
+    //using promise. these two lines prob couldve been one line of code?
+    fetch(request).then(getComment());
+
+}
