@@ -73,7 +73,7 @@ function getComment() {
    //initiatise it so it doesnt append and append and append
     document.getElementById('content-container').innerHTML = ''
     //comment of comments itereating thought the values. use "in" and it shows the index
-    fetch('/data').then(response => response.json()).then((comments) => {
+    fetch('/data?maxComments=8').then(response => response.json()).then((comments) => {
         for (comment of comments) {
             document.getElementById('content-container').innerHTML += comment.content + '<br>' ;
         }
