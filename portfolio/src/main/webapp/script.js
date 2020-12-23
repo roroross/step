@@ -94,9 +94,30 @@ function deleteComment() {
 
 }
 
-/** Creates a map and adds it to the page. */
+/** Creates a map and adds it to the page. put in center of Town Hall, and set zoom. */
 function createMap() {
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
+    const TownHall = {lat: -33.8732, lng: 151.2071};
+    const SGHS = {lat: -33.889829774, lng : 151.218999124};
+    const UNSW = {lat : -33.917329664, lng : 151.225332432};
+    const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: TownHall, zoom: 13});
+        // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+        position: TownHall,
+        map: map,
+        title: 'TownHall Station'
+    });
+    
+    const marker_sghs = new google.maps.Marker({
+        position: SGHS,
+        map: map,
+        title: 'Sydney Girls High School, where I went to high school'
+    });
+    const marker_UNSW = new google.maps.Marker({
+        position: UNSW,
+        map: map,
+        title: 'UNSW, my university'
+    });
+    
 }
