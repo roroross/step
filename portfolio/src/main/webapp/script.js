@@ -71,11 +71,32 @@ function getComment() {
    //iterate over the comments array to get  out of the content.
  
    //initiatise it so it doesnt append and append and append
-    document.getElementById('content-container').innerHTML = ''
-    //comment of comments itereating thought the values. use "in" and it shows the index
-    fetch('/data').then(response => response.json()).then((comments) => {
+    document.getElementById('content-container').innerHTML = '';
+    //get the selected dropdown.
+    commentLimitSelection = document.getElementById('maxCommentSelected');
+    //Retrieving the text of the selected <option> in <select> element. .selectedindex shows the chosen index! //string
+    commentLimit = commentLimitSelection.options[commentLimitSelection.selectedIndex].text; 
+
+    //comment of comments itereating thought the values. use "in" and it shows the index. 
+    fetch('/data' + '?maxComments=' + commentLimit).then(response => response.json()).then((comments) => {
         for (comment of comments) {
             document.getElementById('content-container').innerHTML += comment.content + '<br>' ;
         }
     });
+}
+
+function deleteComment() {
+    //make POST request to /delete-data
+    const request = new Request('/delete-data', {method: 'POST'});
+    //call function to detch comments from server so now deleted comments are removed from apge
+    //using promise. these two lines prob couldve been one line of code?
+    fetch(request).then(getComment());
+
+}
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
 }

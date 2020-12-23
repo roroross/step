@@ -44,8 +44,10 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
-
-    //response.setContentType("text/plain");
+    
+    String maxNumStr = request.getParameter("maxComments"); //returns as a string
+    int maxNum = Integer.parseInt(maxNumStr); //convert str to int
+    // /data?maxComments=5, that passes in "5" for the parameter "maxComments"
 
     List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
     for (Entity entity : results.asIterable()) {
@@ -55,8 +57,13 @@ public class DataServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       String ipAddress = (String) entity.getProperty("ipAddress");
 
-      Comment newComments = new Comment(id, content, timestamp, ipAddress);
-      comments.add(newComments);
+      //if it is over max size, stop adding comments in
+      if (comments.size() >= maxNum) {
+          break;
+      } else {
+          Comment newComments = new Comment(id, content, timestamp, ipAddress);
+          comments.add(newComments);
+      }
     }
     response.setContentType("application/json;"); //before other data is sent
 
@@ -65,7 +72,7 @@ public class DataServlet extends HttpServlet {
     // Convert the server  to JSON
     Gson gson = new Gson();
     String json = gson.toJson(comments);
-    
+
     // Send the JSON as the response 
     response.getWriter().println(json);
   }
