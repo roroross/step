@@ -119,5 +119,16 @@ function createMap() {
         map: map,
         title: 'UNSW, my university'
     });
-    
+    const UNSWInfoWin =
+        new google.maps.InfoWindow({content: 'UNSW, my university. Goodbye to the UNSW 891 bus. You will be missed.'});
+    UNSWInfoWin.open(map, marker_UNSW);
+
+    const SGHInfoWin =
+        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
+    SGHInfoWin.open(map, marker_sghs);
+
+    const TownHallInfoWin =
+        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the layout but they need aircon. \
+        (Am a rail Nerd, the infrastructure of the station is really cool)'});
+    TownHallInfoWin.open(map, marker);
 }
