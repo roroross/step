@@ -13,7 +13,8 @@
 // limitations under the License.
 
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(loadChartFunctions); //setting this to all charts.
+//this will load the charts so dont need to call it in the html onload. 
 
 /**
  * Adds a random greeting to the page.
@@ -137,7 +138,7 @@ function createMap() {
 }
 
 /** Creates a chart and adds it to the page. */
-function drawChart() {
+function drawDrinksChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Drinks');
   data.addColumn('number', 'Count');
@@ -146,6 +147,7 @@ function drawChart() {
           ['Bubble Tea', 14],
           ['Lemon Tea', 7],
           ['Coke', 5],
+          ['Apple Juice', 3],
         ]);
 
   const options = {
@@ -156,4 +158,35 @@ function drawChart() {
   const chart = new google.visualization.PieChart(
       document.getElementById('chart-container'));
   chart.draw(data, options);
+}
+
+/** Fetches bigfoot sightings data and uses it to create a chart. */
+function drawCovidChart() {
+  //fetch into the /covid data, then convert the response into json, then calling the retrived json  TotalCovidCaseCount 
+  //we make a chart of it
+  fetch('/Covid-data').then(response => response.json())
+  .then((TotalCovidCaseCount) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Year');
+    data.addColumn('number', 'Total Count');
+    Object.keys(TotalCovidCaseCount).forEach((year) => {
+      data.addRow([year, TotalCovidCaseCount[year]]);
+    });
+
+    const options = {
+      'title': 'Total Australia Covid Count over 2020 ',
+      'width':600,
+      'height':500
+    };
+
+    const chart = new google.visualization.LineChart(
+        document.getElementById('covid-container'));
+    chart.draw(data, options);
+  });
+}
+
+/** Onload function to draw all the chart functions before using webpage */
+function loadChartFunctions() {
+  drawDrinksChart();
+  drawCovidChart();
 }
