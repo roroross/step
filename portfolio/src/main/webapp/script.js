@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random greeting to the page.
  */
@@ -131,4 +134,26 @@ function createMap() {
         new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the layout but they need aircon. \
         (Am a rail Nerd, the infrastructure of the station is really cool)'});
     TownHallInfoWin.open(map, marker);
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Drinks');
+  data.addColumn('number', 'Count');
+        data.addRows([
+          ['Water', 16],
+          ['Bubble Tea', 14],
+          ['Lemon Tea', 7],
+          ['Coke', 5],
+        ]);
+
+  const options = {
+    'title': 'Drinks I consume in a week',
+    'width':500,
+    'height':400
+  };
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }
