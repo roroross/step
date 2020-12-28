@@ -45,9 +45,24 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
     
+    int maxNum = 0;
     String maxNumStr = request.getParameter("maxComments"); //returns as a string
     int maxNum = Integer.parseInt(maxNumStr); //convert str to int
     // /data?maxComments=5, that passes in "5" for the parameter "maxComments"
+
+    /*
+    , you can initialise maxNum to zero, attempt to parse the string (discarding the error), 
+    and if maxNum is still zero, change it to whatever you're enforcing as your default.
+    int maxNum = 0;
+    try {
+      //  Block of code to try
+      maxNum = Integer.parseInt(maxNumStr); 
+    }
+    catch(Exception e) {
+      //  Block of code to handle errors
+    }
+    if maxNUm == 0, then make it to 3 as default. cose then you cant trust user input cose its a fish. 
+    */
 
     List<Comment> comments = new ArrayList<>(); //-> make it at the top? an arraylist of commentclass
     for (Entity entity : results.asIterable()) {

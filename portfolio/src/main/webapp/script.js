@@ -112,29 +112,54 @@ function createMap() {
         map: map,
         title: 'TownHall Station'
     });
+    const TownHallInfoWin =
+        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the infrastructure layout. \
+        (I used to be a Rail intern at a Engineering Firm)'});
+    TownHallInfoWin.open(map, marker);
     
     const marker_sghs = new google.maps.Marker({
         position: SGHS,
         map: map,
-        title: 'Sydney Girls High School, where I went to high school'
+        title: 'Sydney Girls High School'
     });
+    const SGHInfoWin =
+        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
+    SGHInfoWin.open(map, marker_sghs);
+
     const marker_UNSW = new google.maps.Marker({
         position: UNSW,
         map: map,
-        title: 'UNSW, my university'
+        title: 'UNSW'
     });
     const UNSWInfoWin =
         new google.maps.InfoWindow({content: 'UNSW, my university. Goodbye to the UNSW 891 bus. You will be missed.'});
     UNSWInfoWin.open(map, marker_UNSW);
 
-    const SGHInfoWin =
-        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
-    SGHInfoWin.open(map, marker_sghs);
+    const marker_Kingtea = new google.maps.Marker({
+        position: {lat: -33.87757560192759, lng: 151.20434077792177},
+        map: map,
+    })
+    const KTInfoWin = 
+        new google.maps.InfoWindow({content: "BBT Rec #1: really nice tea, I like the watermelon crush with cream cheese on top. \
+         Can't get it anywhere else other than this BBT Chain!! Really Unique flavour"});
+    KTInfoWin.open(map, marker_Kingtea);
 
-    const TownHallInfoWin =
-        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the layout but they need aircon. \
-        (Am a rail Nerd, the infrastructure of the station is really cool)'});
-    TownHallInfoWin.open(map, marker);
+    const marker_Ymi = new google.maps.Marker({
+        position: {lat: -33.87942790779213, lng: 151.20466664018636},
+        map: map,
+    });
+    const YmiInfoWin =
+        new google.maps.InfoWindow({content: 'BBT Rec #2: Yomies Rice X Yogurt. The OG purple rice yoghurt store that inspired the new rice yoghurt trend.\
+        Try the purple rice yoghurt flavour, or the hawthorn flavour'});
+    YmiInfoWin.open(map, marker_Ymi);
+
+    const marker_Fish = new google.maps.Marker({
+        position: {lat: -33.87683779095806, lng: 151.20367581672295},
+        map: map,
+    });
+    const FishInfoWin =
+        new google.maps.InfoWindow({content: 'Meal Rec: There is a really good grilled fish place here. Super cheap and Yum!'});
+    FishInfoWin.open(map, marker_Fish);
 }
 
 /** Creates a chart and adds it to the page. */
