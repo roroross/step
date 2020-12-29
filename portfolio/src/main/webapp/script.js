@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random greeting to the page.
  */
@@ -94,9 +97,63 @@ function deleteComment() {
 
 }
 
-/** Creates a map and adds it to the page. */
+/** Creates a map and adds it to the page. put in center of Town Hall, and set zoom. */
 function createMap() {
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: {lat: 37.422, lng: -122.084}, zoom: 16});
+    const TownHall = {lat: -33.8732, lng: 151.2071};
+    const SGHS = {lat: -33.889829774, lng : 151.218999124};
+    const UNSW = {lat : -33.917329664, lng : 151.225332432};
+    const map = new google.maps.Map(
+        document.getElementById('map'),
+        {center: TownHall, zoom: 13});
+        // The marker, positioned at Uluru
+    const marker = new google.maps.Marker({
+        position: TownHall,
+        map: map,
+        title: 'TownHall Station'
+    });
+    
+    const marker_sghs = new google.maps.Marker({
+        position: SGHS,
+        map: map,
+        title: 'Sydney Girls High School, where I went to high school'
+    });
+    const marker_UNSW = new google.maps.Marker({
+        position: UNSW,
+        map: map,
+        title: 'UNSW, my university'
+    });
+    const UNSWInfoWin =
+        new google.maps.InfoWindow({content: 'UNSW, my university. Goodbye to the UNSW 891 bus. You will be missed.'});
+    UNSWInfoWin.open(map, marker_UNSW);
+
+    const SGHInfoWin =
+        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
+    SGHInfoWin.open(map, marker_sghs);
+
+    const TownHallInfoWin =
+        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the layout but they need aircon. \
+        (Am a rail Nerd, the infrastructure of the station is really cool)'});
+    TownHallInfoWin.open(map, marker);
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Drinks');
+  data.addColumn('number', 'Count');
+        data.addRows([
+          ['Water', 16],
+          ['Bubble Tea', 14],
+          ['Lemon Tea', 7],
+          ['Coke', 5],
+        ]);
+
+  const options = {
+    'title': 'Drinks I consume in a week',
+    'width':500,
+    'height':400
+  };
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }

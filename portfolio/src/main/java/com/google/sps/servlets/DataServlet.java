@@ -60,10 +60,10 @@ public class DataServlet extends HttpServlet {
       //if it is over max size, stop adding comments in
       if (comments.size() >= maxNum) {
           break;
-      } else {
-          Comment newComments = new Comment(id, content, timestamp, ipAddress);
-          comments.add(newComments);
-      }
+      } 
+      Comment newComments = new Comment(id, content, timestamp, ipAddress);
+      comments.add(newComments);
+      
     }
     response.setContentType("application/json;"); //before other data is sent
 
