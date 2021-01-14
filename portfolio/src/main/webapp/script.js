@@ -13,7 +13,8 @@
 // limitations under the License.
 
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(loadChartFunctions); //setting this to all charts.
+//this will load the charts so dont need to call it in the html onload. 
 
 /**
  * Adds a random greeting to the page.
@@ -111,33 +112,58 @@ function createMap() {
         map: map,
         title: 'TownHall Station'
     });
+    const TownHallInfoWin =
+        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the infrastructure layout. \
+        (I used to be a Rail intern at a Engineering Firm)'});
+    TownHallInfoWin.open(map, marker);
     
     const marker_sghs = new google.maps.Marker({
         position: SGHS,
         map: map,
-        title: 'Sydney Girls High School, where I went to high school'
+        title: 'Sydney Girls High School'
     });
+    const SGHInfoWin =
+        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
+    SGHInfoWin.open(map, marker_sghs);
+
     const marker_UNSW = new google.maps.Marker({
         position: UNSW,
         map: map,
-        title: 'UNSW, my university'
+        title: 'UNSW'
     });
     const UNSWInfoWin =
         new google.maps.InfoWindow({content: 'UNSW, my university. Goodbye to the UNSW 891 bus. You will be missed.'});
     UNSWInfoWin.open(map, marker_UNSW);
 
-    const SGHInfoWin =
-        new google.maps.InfoWindow({content: 'Sydney Girls High School, where I went to high school. Fun times!'});
-    SGHInfoWin.open(map, marker_sghs);
+    const marker_Kingtea = new google.maps.Marker({
+        position: {lat: -33.87757560192759, lng: 151.20434077792177},
+        map: map,
+    })
+    const KTInfoWin = 
+        new google.maps.InfoWindow({content: "BBT Rec #1: really nice tea, I like the watermelon crush with cream cheese on top. \
+         Can't get it anywhere else other than this BBT Chain!! Really Unique flavour"});
+    KTInfoWin.open(map, marker_Kingtea);
 
-    const TownHallInfoWin =
-        new google.maps.InfoWindow({content: 'Townhall Station. A reall cool underground station if you look at the layout but they need aircon. \
-        (Am a rail Nerd, the infrastructure of the station is really cool)'});
-    TownHallInfoWin.open(map, marker);
+    const marker_Ymi = new google.maps.Marker({
+        position: {lat: -33.87942790779213, lng: 151.20466664018636},
+        map: map,
+    });
+    const YmiInfoWin =
+        new google.maps.InfoWindow({content: 'BBT Rec #2: Yomies Rice X Yogurt. The OG purple rice yoghurt store that inspired the new rice yoghurt trend.\
+        Try the purple rice yoghurt flavour, or the hawthorn flavour'});
+    YmiInfoWin.open(map, marker_Ymi);
+
+    const marker_Fish = new google.maps.Marker({
+        position: {lat: -33.87683779095806, lng: 151.20367581672295},
+        map: map,
+    });
+    const FishInfoWin =
+        new google.maps.InfoWindow({content: 'Meal Rec: There is a really good grilled fish place here. Super cheap and Yum!'});
+    FishInfoWin.open(map, marker_Fish);
 }
 
 /** Creates a chart and adds it to the page. */
-function drawChart() {
+function drawDrinksChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Drinks');
   data.addColumn('number', 'Count');
@@ -146,6 +172,7 @@ function drawChart() {
           ['Bubble Tea', 14],
           ['Lemon Tea', 7],
           ['Coke', 5],
+          ['Apple Juice', 3],
         ]);
 
   const options = {
@@ -156,4 +183,35 @@ function drawChart() {
   const chart = new google.visualization.PieChart(
       document.getElementById('chart-container'));
   chart.draw(data, options);
+}
+
+/** Fetches bigfoot sightings data and uses it to create a chart. */
+function drawCovidChart() {
+  //fetch into the /covid data, then convert the response into json, then calling the retrived json  TotalCovidCaseCount 
+  //we make a chart of it
+  fetch('/Covid-data').then(response => response.json())
+  .then((TotalCovidCaseCount) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Year');
+    data.addColumn('number', 'Total Count');
+    Object.keys(TotalCovidCaseCount).forEach((year) => {
+      data.addRow([year, TotalCovidCaseCount[year]]);
+    });
+
+    const options = {
+      'title': 'Total Australia Covid Count over 2020 ',
+      'width':600,
+      'height':500
+    };
+
+    const chart = new google.visualization.LineChart(
+        document.getElementById('covid-container'));
+    chart.draw(data, options);
+  });
+}
+
+/** Onload function to draw all the chart functions before using webpage */
+function loadChartFunctions() {
+  drawDrinksChart();
+  drawCovidChart();
 }
