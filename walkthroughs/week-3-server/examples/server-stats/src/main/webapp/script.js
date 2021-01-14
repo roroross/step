@@ -20,7 +20,8 @@ function getServerStats() {
   fetch('/server-stats').then(response => response.json()).then((stats) => {
     // stats is an object, not a string, so we have to
     // reference its fields to create HTML content
-
+    
+    //page display 
     const statsListElement = document.getElementById('server-stats-container');
     statsListElement.innerHTML = '';
     statsListElement.appendChild(
